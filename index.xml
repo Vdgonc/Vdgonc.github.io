@@ -1,23 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Vdgonc - The noob blog about hacking.</title>
-    <link>https://vdgonc.github.io/</link>
-    <description>Recent content on Vdgonc - The noob blog about hacking.</description>
+    <title>VdGonc</title>
+    <link>https://vdgonc.com/</link>
+    <description>Recent content on VdGonc</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Wed, 15 Apr 2020 22:27:47 -0300</lastBuildDate><atom:link href="https://vdgonc.github.io/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>OpenAdmin WriteUp</title>
-      <link>https://vdgonc.github.io/posts/openadmin-writeup/</link>
-      <pubDate>Wed, 15 Apr 2020 22:27:47 -0300</pubDate>
-      
-      <guid>https://vdgonc.github.io/posts/openadmin-writeup/</guid>
-      <description>Hey everyone, Vdgonc here.
- So this is my walkthrough of OpenAdmin on Hack The Box.
- Disclaimer: It’s my first public post in English, also my third post in all my life. Also, my idea is to show how I think when I&amp;rsquo;m solving a challenge, so there will be no flag to show.
- With port scanning, I detect two open ports (22 and 80), the port 80 running Apache Server then using Gobuster to enumerate folder and files on the server I found the directory /ona.</description>
-    </item>
-    
+    <language>pt-br</language><atom:link href="https://vdgonc.com/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
